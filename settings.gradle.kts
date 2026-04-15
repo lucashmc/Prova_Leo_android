@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Prova_leo."
+rootProject.name = "Prova_leo"
 include(":app")
  
