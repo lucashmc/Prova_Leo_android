@@ -12,14 +12,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Prova_leo">
         <activity
-            android:name=".MainActivity"
+            android:name=".AddProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProductListActivity"
+            android:label="Lista de Produtos"
+            android:parentActivityName=".AddProductActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
