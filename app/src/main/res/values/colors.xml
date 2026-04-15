@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Cores verdes para o tema -->
+    <color name="primary_green">#2E7D32</color>
+    <color name="primary_green_light">#60AD5E</color>
+    <color name="primary_green_dark">#005005</color>
+    <color name="secondary_green">#43A047</color>
+    <color name="background_light_green">#F1F8E9</color>
+
+    <color name="error_red">#B00020</color>
 </resources>
