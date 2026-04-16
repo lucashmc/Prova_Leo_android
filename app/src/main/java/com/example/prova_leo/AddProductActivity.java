@@ -2,6 +2,8 @@ package com.example.prova_leo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +42,9 @@ public class AddProductActivity extends AppCompatActivity {
         buttonSave = findViewById(R.id.buttonSave);
         buttonToList = findViewById(R.id.buttonToList);
 
+        // Aplica o filtro de no máximo 2 casas decimais diretamente no EditText
+        editTextPrice.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(10, 2)});
+
         // Configura o clique do botão de salvar
         buttonSave.setOnClickListener(v -> saveProduct());
 
@@ -73,6 +78,12 @@ public class AddProductActivity extends AppCompatActivity {
                 return;
             }
             
+            // Validação: No máximo 2 casas decimais
+            if (priceStr.contains(".") && priceStr.substring(priceStr.indexOf(".") + 1).length() > 2) {
+                Toast.makeText(this, "O preço deve ter no máximo 2 casas decimais", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
             // Validação: Quantidade positiva
             if (quantity <= 0) {
                 Toast.makeText(this, "A quantidade deve ser um número inteiro positivo", Toast.LENGTH_SHORT).show();
@@ -103,5 +114,29 @@ public class AddProductActivity extends AppCompatActivity {
         editTextCode.setText("");
         editTextPrice.setText("");
         editTextQuantity.setText("");
+    }
+
+    // Classe interna para filtrar e limitar casas decimais no EditText
+    class DecimalDigitsInputFilter implements InputFilter {
+        private final int digitsBeforeZero;
+        private final int digitsAfterZero;
+
+        public DecimalDigitsInputFilter(int digitsBeforeZero, int digitsAfterZero) {
+            this.digitsBeforeZero = digitsBeforeZero;
+            this.digitsAfterZero = digitsAfterZero;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String replacement = source.subSequence(start, end).toString();
+            String newVal = dest.subSequence(0, dstart).toString() + replacement + dest.subSequence(dend, dest.length()).toString();
+            if (newVal.isEmpty()) return null;
+            if (newVal.equals(".")) return "0.";
+            if (newVal.indexOf(".") != -1) {
+                if (newVal.indexOf(".") == 0) return "0" + newVal;
+                if (newVal.substring(newVal.indexOf(".") + 1).length() > digitsAfterZero) return "";
+            }
+            return null;
+        }
     }
 }
